@@ -1,39 +1,51 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
-    return (
-      <div className="h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-          <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-          <form className="space-y-4">
-            <div>
-              <input 
-                type="email" 
-                placeholder="Email" 
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <input 
-                type="password" 
-                placeholder="Password" 
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <button 
-                type="submit" 
-                className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                Login
-              </button>
-            </div>
-          </form>
-          <div className="text-center mt-4">
-            <p className="text-sm text-gray-500">Don't have an account? <a href="/signup" className="text-blue-500 hover:underline">Sign Up</a></p>
-          </div>
-        </div>
-      </div>
-    );
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    const userData = { email, name: "Arpit Saini" };
+    dispatch(login(userData));
+    navigate("/dashboard");
   };
-  
-  export default Login;
-  
+
+  return (
+    <div className="h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500 px-4">
+      <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md border border-gray-200">
+        <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-8">Welcome Back</h2>
+        <p className="text-gray-600 text-center mb-6">Sign in to continue</p>
+        <div className="space-y-6">
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-md hover:shadow-lg"
+            onClick={handleLogin}
+          >
+            Login
+          </button>
+        </div>
+        <p className="text-gray-500 text-center mt-6">Don't have an account? <a href="/signup" className="text-blue-600 hover:underline">Sign up</a></p>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

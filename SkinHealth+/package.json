@@ -12,10 +12,14 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",
     "@tailwindcss/vite": "^4.0.17",
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs": "^4.22.0",
+    "opencv.js": "^1.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.4.1",
+    "react-webcam": "^7.2.0",
     "tailwindcss": "^4.0.17"
   },
   "devDependencies": {

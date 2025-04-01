@@ -1,14 +1,33 @@
-const Dashboard = () => {
-    return (
-      <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-r from-green-400 via-blue-500 to-purple-600">
-        <h2 className="text-4xl font-extrabold text-white mb-6">Dashboard</h2>
-        <p className="text-lg text-white mb-4">Welcome to your personal dashboard</p>
-        <div className="bg-white p-6 rounded-lg shadow-xl w-96">
-          <p className="text-lg text-gray-700">Here you can manage your skin health data, consultations, and more.</p>
-        </div>
-      </div>
-    );
-  };
+import {useSelector, useDispatch} from "react-redux"
+import {logout} from "../redux/userSlice"
+import {useNavigate} from "react-router-dom"
+
+const Dashboard =() =>{
+  const dispatch = useDispatch()
+  const navigate =useNavigate()
+  const user = useSelector((state)=> state.user.user)
+  const isAuthenticated = useSelector((state )=> state.user.isAuthenticated)
   
-  export default Dashboard;
-  
+
+
+const handleLogout =()=>{
+  dispatch(logout())
+  navigate("/login")
+}
+
+
+if (!isAuthenticated) {
+  return <h2 className="text-center mt-10">Please login to access the dashboard</h2>;
+}
+
+return (
+  <div className="h-screen flex flex-col items-center justify-center">
+    <h2 className="text-2xl font-bold">Welcome, {user?.name}!</h2>
+    <button className="bg-red-500 text-white px-4 py-2 rounded-lg mt-4" onClick={handleLogout}>
+      Logout
+    </button>
+  </div>
+);
+};
+
+export default Dashboard;

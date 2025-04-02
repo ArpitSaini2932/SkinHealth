@@ -1,22 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  appointment: null,
+    appointments: [],
+    activeCall: null
 };
 
 const consultSlice = createSlice({
-  name: "consult",
-  initialState,
-  reducers: {
-    bookAppointment: (state, action) => {
-      state.appointment = action.payload;
-    },
-    resetAppointment: (state) => {
-      state.appointment = null;
-    },
-  },
+    name: "consult",
+    initialState,
+    reducers: {
+        bookAppointment: (state, action) => {
+            state.appointments.push(action.payload);
+        },
+        startCall: (state, action) => {
+            state.activeCall = action.payload; 
+        },
+        endCall: (state) => {
+            state.activeCall = null;
+        }
+    }
 });
 
-export const { bookAppointment, resetAppointment } = consultSlice.actions;
-
+export const { bookAppointment, startCall, endCall } = consultSlice.actions;
 export default consultSlice.reducer;

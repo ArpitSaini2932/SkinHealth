@@ -8,8 +8,10 @@ import Consult from "./pages/Consult";
 import AboutUs from "./pages/AboutUs";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import VideoCall  from "./pages/videoCall"
+import Community from "./pages/Community";
 import SkinAnalysis from "./pages/SkinAnalysis";
-
+import Chat from "./pages/Chat";
 
 
 
@@ -30,6 +32,9 @@ const AppRoutes = () => {
         <Route path="/scan" element={<SkinScan />} />
         <Route path="/consult" element={<Consult />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/video-call" element={<VideoCall />} />
       </Routes>
     </Router>
   );

@@ -1,10 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
-import { analyzeImage } from "../ai/model";
-import { preprocessImage } from "../utils/imageProcessing";
+import { analyzeImage, loadModel } from "../ai/model";
 
 const getAdvice = (condition) => {
   const advice = {
+    "Healthy Skin": "Maintain a balanced diet and proper skincare.",
     "Acne": "Use oil-free skincare products and wash your face twice daily.",
     "Eczema": "Moisturize frequently and avoid harsh soaps.",
     "Psoriasis": "Consult a dermatologist for medication and avoid stress.",
@@ -17,16 +17,20 @@ const SkinAnalysis = () => {
   const [result, setResult] = useState([]);
   const webcamRef = useRef(null);
 
+  useEffect(() => {
+    loadModel(); // Load AI model on component mount
+  }, []);
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
+    if (!file) return;
 
+    const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
       img.src = e.target.result;
       img.onload = () => {
-        preprocessImage(img);
-        setImage(img);
+        setImage(img); // Store as ImageElement for processing
       };
     };
     reader.readAsDataURL(file);
@@ -34,7 +38,11 @@ const SkinAnalysis = () => {
 
   const captureImage = () => {
     const screenshot = webcamRef.current.getScreenshot();
-    setImage(screenshot);
+    const img = new Image();
+    img.src = screenshot;
+    img.onload = () => {
+      setImage(img); // Ensure image is in correct format
+    };
   };
 
   const analyzeSkin = async () => {
@@ -52,6 +60,13 @@ const SkinAnalysis = () => {
       <button onClick={captureImage} className="bg-blue-500 px-6 py-3 text-white rounded-full mb-4 hover:bg-blue-600">
         Capture from Webcam
       </button>
+
+      {image && (
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold">Preview:</h3>
+          <img src={image.src} alt="Uploaded" className="mt-2 max-w-xs border border-gray-300 rounded" />
+        </div>
+      )}
 
       <button onClick={analyzeSkin} className="bg-green-500 px-6 py-3 text-white rounded-full mb-4 hover:bg-green-600">
         Analyze Skin

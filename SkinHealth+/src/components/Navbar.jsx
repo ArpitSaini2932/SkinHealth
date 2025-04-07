@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white shadow-md p-4 flex justify-between">
-      <h1 className="text-2xl font-bold">SkinHealth+</h1>
-      <div>
-        <Link to="/login" className="mr-4">Login</Link>
-        <Link to="/signup" className="bg-blue-500 text-white px-4 py-2 rounded-lg">Sign Up</Link>
-      </div>
+    <nav className="bg-blue-600 text-white p-4">
+      <ul className="flex gap-6">
+        <li><Link to="/" className="hover:underline">Home</Link></li>
+        <li><Link to="/analysis" className="hover:underline">Skin Analysis</Link></li>
+        <li><Link to="/about" className="hover:underline">About</Link></li>
+      </ul>
     </nav>
   );
 };

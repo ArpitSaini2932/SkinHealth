@@ -1,69 +1,55 @@
-import { useEffect, useState, useRef } from "react";
-import { io } from "socket.io-client";
+import React, { useState } from 'react';
 
-const socket = io("http://localhost:5000");
-
-const Chat = () => {
-  const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([]);
-  const chatRef = useRef(null);
-
-  useEffect(() => {
-    socket.on("message", (msg) => {
-      setChat((prevChat) => [...prevChat, msg]);
-    });
-
-    return () => {
-      socket.off("message");
-    };
-  }, []);
-
-  useEffect(() => {
-    chatRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chat]);
+const Chatbot = () => {
+  const [messages, setMessages] = useState([{ from: 'bot', text: 'Hi! Ask me about any skin disease or remedy.' }]);
+  const [input, setInput] = useState('');
 
   const sendMessage = () => {
-    if (message.trim() === "") return;
-    socket.emit("message", message);
-    setMessage("");
+    if (!input.trim()) return;
+
+    const newMessages = [...messages, { from: 'user', text: input }];
+
+    // Mock response (Replace this part with your real AI response)
+    const botReply = {
+      from: 'bot',
+      text: `I'll find information on "${input}"... (This is a mock reply)`,
+    };
+
+    setMessages([...newMessages, botReply]);
+    setInput('');
   };
 
   return (
-    <div className="flex flex-col h-screen items-center justify-center bg-gray-100 p-6">
-      <h2 className="text-3xl font-bold mb-4 text-blue-600">Live Chat</h2>
-
-      <div className="w-full max-w-lg h-96 bg-white shadow-lg rounded-lg p-4 overflow-y-auto">
-        {chat.map((msg, index) => (
-          <div 
-            key={index} 
-            className={`p-2 my-2 rounded-lg ${
-              index % 2 === 0 ? "bg-blue-100 text-blue-900 self-end" : "bg-gray-200 text-gray-900"
-            }`}
+    <div className="min-h-screen p-4 bg-gray-100 flex flex-col items-center">
+      <div className="w-full max-w-lg bg-white rounded shadow p-4">
+        <h1 className="text-xl font-bold mb-4">SkinHealth+ AI Chat</h1>
+        <div className="h-96 overflow-y-auto mb-4 border rounded p-2 bg-gray-50">
+          {messages.map((msg, i) => (
+            <div key={i} className={`mb-2 ${msg.from === 'user' ? 'text-right' : 'text-left'}`}>
+              <span className={`inline-block px-3 py-2 rounded ${msg.from === 'user' ? 'bg-blue-200' : 'bg-green-200'}`}>
+                {msg.text}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div className="flex">
+          <input
+            type="text"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            className="flex-grow border px-3 py-2 rounded-l"
+            placeholder="Ask a question..."
+          />
+          <button
+            onClick={sendMessage}
+            className="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600"
           >
-            {msg}
-          </div>
-        ))}
-        <div ref={chatRef} />
-      </div>
-
-      <div className="w-full max-w-lg mt-4 flex items-center gap-2">
-        <input
-          type="text"
-          value={message}
-          placeholder="Type a message..."
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          className="flex-1 p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          onClick={sendMessage}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all"
-        >
-          Send
-        </button>
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Chat;
+export default Chatbot;

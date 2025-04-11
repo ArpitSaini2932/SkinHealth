@@ -1,88 +1,105 @@
-import { useState, useRef, useEffect } from "react";
-import Webcam from "react-webcam";
-import { analyzeImage, loadModel } from "../ai/model";
-
-const getAdvice = (condition) => {
-  const advice = {
-    "Healthy Skin": "Maintain a balanced diet and proper skincare.",
-    "Acne": "Use oil-free skincare products and wash your face twice daily.",
-    "Eczema": "Moisturize frequently and avoid harsh soaps.",
-    "Psoriasis": "Consult a dermatologist for medication and avoid stress.",
-  };
-  return advice[condition] || "Consult a skin specialist for an accurate diagnosis.";
-};
+import React, { useState } from "react";
+import * as tmImage from "@teachablemachine/image";
 
 const SkinAnalysis = () => {
   const [image, setImage] = useState(null);
-  const [result, setResult] = useState([]);
-  const webcamRef = useRef(null);
+  const [previewURL, setPreviewURL] = useState(null);
+  const [predictions, setPredictions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    loadModel(); // Load AI model on component mount
-  }, []);
+  const MODEL_URL = "https://teachablemachine.withgoogle.com/models/dQ-9-BQTV/";
 
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.src = e.target.result;
-      img.onload = () => {
-        setImage(img); // Store as ImageElement for processing
-      };
-    };
-    reader.readAsDataURL(file);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageURL = URL.createObjectURL(file);
+      setImage(file);
+      setPreviewURL(imageURL);
+      setPredictions([]);
+    }
   };
 
-  const captureImage = () => {
-    const screenshot = webcamRef.current.getScreenshot();
-    const img = new Image();
-    img.src = screenshot;
-    img.onload = () => {
-      setImage(img); // Ensure image is in correct format
-    };
-  };
-
-  const analyzeSkin = async () => {
+  const analyzeImage = async () => {
     if (!image) return;
-    const predictions = await analyzeImage(image);
-    setResult(predictions);
+    setLoading(true);
+
+    const modelURL = MODEL_URL + "model.json";
+    const metadataURL = MODEL_URL + "metadata.json";
+
+    const model = await tmImage.load(modelURL, metadataURL);
+
+    const img = document.getElementById("uploaded-image");
+    const prediction = await model.predict(img);
+
+    setPredictions(prediction);
+    setLoading(false);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-6">
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Skin Health Analysis</h2>
+    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50 py-12 px-4 flex flex-col items-center">
+      <h1 className="text-4xl font-extrabold text-blue-600 mb-2 text-center">
+        Unlock Your Skin’s Story
+      </h1>
+      <p className="text-gray-600 text-center max-w-xl mb-10">
+        Upload a clear image of your skin and let our AI model provide a quick and intelligent analysis to detect common conditions.
+      </p>
 
-      <input type="file" onChange={handleFileUpload} className="my-4 p-2 border border-gray-300 rounded" />
-      <Webcam ref={webcamRef} screenshotFormat="image/png" className="my-4 border-2 border-gray-300 rounded" />
-      <button onClick={captureImage} className="bg-blue-500 px-6 py-3 text-white rounded-full mb-4 hover:bg-blue-600">
-        Capture from Webcam
-      </button>
-
-      {image && (
-        <div className="mt-4">
-          <h3 className="text-lg font-semibold">Preview:</h3>
-          <img src={image.src} alt="Uploaded" className="mt-2 max-w-xs border border-gray-300 rounded" />
+      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-lg p-8 flex flex-col lg:flex-row gap-8">
+        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center">
+          <label className="block mb-4 text-lg font-medium text-gray-700">
+            Upload your skin image
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="block text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+          />
+          {previewURL && (
+            <img
+              id="uploaded-image"
+              src={previewURL}
+              alt="Uploaded"
+              className="mt-6 w-64 h-64 object-cover rounded-xl border shadow"
+            />
+          )}
+          {image && (
+            <button
+              onClick={analyzeImage}
+              className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition"
+            >
+              {loading ? "Analyzing..." : "Analyze Image"}
+            </button>
+          )}
         </div>
-      )}
 
-      <button onClick={analyzeSkin} className="bg-green-500 px-6 py-3 text-white rounded-full mb-4 hover:bg-green-600">
-        Analyze Skin
-      </button>
-
-      {result.length > 0 && (
-        <div className="mt-6 w-full max-w-lg bg-white shadow-lg rounded-lg p-6">
-          <h3 className="text-xl font-semibold text-gray-700 mb-4">Predictions:</h3>
-          {result.map((res, index) => (
-            <div key={index} className="mb-4 p-4 border-b border-gray-200">
-              <p className="text-lg font-semibold text-gray-800">{res.className} - {Math.round(res.probability * 100)}%</p>
-              <p className="text-sm text-gray-600 mt-2">{getAdvice(res.className)}</p>
+        <div className="w-full lg:w-1/2">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">AI Prediction Results</h2>
+          {predictions.length > 0 ? (
+            <div className="space-y-3">
+              {predictions.map((p, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center bg-blue-50 p-4 rounded-lg shadow-sm"
+                >
+                  <span className="font-medium text-gray-700">{p.className}</span>
+                  <span className="font-semibold text-blue-600">
+                    {(p.probability * 100).toFixed(2)}%
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <p className="text-gray-500">
+              Upload a photo and click "Analyze" to view prediction results.
+            </p>
+          )}
         </div>
-      )}
+      </div>
+
+      <p className="text-xs text-gray-400 mt-8 text-center max-w-md">
+        🔒 Your photo is not stored or shared. All analysis is done securely in your browser.
+      </p>
     </div>
   );
 };

@@ -1,96 +1,113 @@
-import React from "react";
+// File: src/pages/MainPage.jsx
+import React from 'react';
 import { Link } from "react-router-dom";
+import img from '../import/import';
 
 const Home = () => {
   return (
     <div className="font-sans">
-      {/* Hero Section */}
-      <section className="bg-white px-6 pt-12 pb-8 text-center">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 items-center gap-8">
+
+      <section className="p-10 bg-gray-50 min-h-screen flex flex-col justify-center">
+        <div className="grid md:grid-cols-2 items-center gap-10">
+          <div>
+            <h1 className="flex flex-col text-[64px] font-medium mb-4">
+              Transform <span>Your Skin with</span>  <span className="text-blue-500">AI-Powered Care!</span>
+            </h1>
+            <p className="text-gray-600 text-[25px] font-normal mb-6">
+              Powered by AI, guided by dermatologists—your smart solution for fast and accurate skin health insights.
+            </p>
+            <div className="space-x-4">
+              <button className="bg-blue-500 rounded-4xl text-[23px] text-white px-6 py-2 rounded hover:bg-blue-600 hover:scale-105 hover:brightness-110 transition duration-300">Get AI Skin Analysis</button>
+              <button className="px-6 py-2 text-[23px] shadow-lg rounded-4xl hover:bg-gray-100">Read More</button>
+            </div>
+          </div>
+          <img
+            src={img.lady}
+            alt="Doctor"
+            className="rounded-xl shadow-lg w-full"
+          />
+        </div>
+      </section>
+
+  
+      <section className="text-center m-auto justify-center align-middle py-16 bg-white">
+       <div className='flex justify-center align-middle'> <h2  className="  text-[40px] font-semibold mb-4">
+          Why Choose </h2><img className="w-64" src={img.skinHealth} alt="" /><span  className='text-[40px] font-bold'>?</span>
+        </div>
+        <p className="text-black max-w-xl text-[20px] font-medium mx-auto mb-10">
+          Combining AI innovation with trusted dermatologists to give you personalized, effective, and accessible skin care.
+        </p>
+        <div className="grid md:grid-cols-3 gap-8 px-10">
+          <div>
+          <h4 className="font-bold">AI-Powered Skin Analysis</h4>
+            <p className="text-sm text-gray-600">
+              Get instant, accurate skin condition assessments with our advanced AI—anytime, anywhere.
+            </p>
             <img
-              src="/doctor-hero.jpg"
-              alt="Doctor"
-              className="w-full h-auto rounded-lg"
+              src={img.pic1}
+              alt="AI Skin Analysis"
+              className="rounded-lg h-48 w-full object-cover mb-4"
             />
-            <div className="text-left">
-              <h1 className="text-4xl font-bold mb-4">Consult a Dermatologist <span className="text-blue-600">Anytime, Anywhere!</span></h1>
-              <p className="text-gray-600 text-lg mb-6">Expert skin advice, anytime, anywhere</p>
-              <button className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800">Book a Consultation</button>
-            </div>
           </div>
-
-          <div className="mt-12 flex justify-around text-sm text-gray-600">
-            <span><strong className="text-green-600">Verified</strong> Dermatologists Only</span>
-            <span><strong className="text-blue-600">Instant</strong> Appointment Booking</span>
-            <span><strong className="text-yellow-500">Affordable</strong> Consultation Fees</span>
-            <span><strong className="text-pink-500">24/7</strong> Help & Support</span>
+          <div>
+            <img
+              src={img.pic2}
+              alt="Certified Dermatologists"
+              className="rounded-lg h-48 w-full object-cover mb-4"
+            />
+            <h4 className="font-bold">Certified Dermatologist Access</h4>
+            <p className="text-sm text-gray-600">
+              Connect with top-rated skin experts without long wait times.
+            </p>
           </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="bg-blue-50 py-16 text-center">
-        <h2 className="text-3xl font-semibold mb-10">How It Works?</h2>
-        <div className="flex flex-col md:flex-row justify-center items-center gap-8 max-w-4xl mx-auto">
-          <div className="bg-white p-6 rounded-lg shadow-md w-64">
-            <h3 className="font-medium text-lg mb-2">Book Consultation</h3>
-            <p className="text-gray-600">Book your Online Consultation</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md w-64">
-            <h3 className="font-medium text-lg mb-2">Connect</h3>
-            <p className="text-gray-600">Connect with Your Dermatologist</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md w-64">
-            <h3 className="font-medium text-lg mb-2">Care Plan</h3>
-            <p className="text-gray-600">Receive a Personalized Care Plan</p>
+          <div>
+          <h4 className="font-bold">Supportive Skin Community</h4>
+            <p className="text-sm text-gray-600">
+              Join a supportive space where users share real experiences, skincare tips, and success stories.
+            </p>
+            <img
+              src={img.pic3}
+              alt="Skin Community"
+              className="rounded-lg h-48 w-full object-cover mb-4"
+            />
+            
           </div>
         </div>
       </section>
 
-      {/* Professionals Section */}
-      <section className="py-16 px-6 text-center">
-        <h2 className="text-3xl font-semibold mb-10">Top rated <span className="text-blue-600">Dermotologists</span>, just a click away</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {["Dr. Cooper Kristin", "Dr. Nguyen Shane", "Dr. Miles Esther", "Dr. Flores Juanita"].map((name, idx) => (
-            <div key={idx} className="bg-white shadow-md rounded-lg p-4">
-              <img
-                src={`/doc${idx + 1}.jpg`}
-                alt={name}
-                className="rounded w-full h-40 object-cover mb-4"
-              />
-              <h4 className="font-semibold text-lg">{name}</h4>
-              <p className="text-gray-500 text-sm">MD Dermatologist</p>
-              <button className="mt-3 text-blue-600 border border-blue-600 rounded px-4 py-2 hover:bg-blue-50">Book an Appointment</button>
-            </div>
-          ))}
-        </div>
+
+      <section className="text-center py-10 bg-blue-50">
+       <Link 
+               to="/signup" 
+               className="px-8 py-3 bg-blue-600 text-white rounded-lg text-xl font-semibold shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105"
+             >
+               Get Started
+             </Link>
       </section>
 
-      {/* Testimonials */}
-      <section className="bg-blue-50 py-16 text-center">
-        <h2 className="text-3xl font-semibold mb-10">Your Skin, Our <span className="text-blue-600">Success</span> Stories</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="bg-white p-4 rounded-lg shadow-md">
-              <p className="text-gray-600">“I was skeptical at first, but SkinHealth+ gave me accurate insights within seconds. The dermatologist consultation was smooth and super helpful. My skin has never felt better!”</p>
-              <p className="mt-2 text-sm font-medium">Adwin John</p>
-              <p className="text-xs text-gray-400">California, USA</p>
+      
+      <section className="py-16 px-10 bg-white">
+        <h3 className="text-2xl font-semibold text-center mb-8">Hear It from Our <span className="text-blue-500">Community</span></h3>
+        <div className="grid md:grid-cols-3 gap-6">
+          {Array(3).fill(0).map((_, i) => (
+            <div key={i} className="border p-6 rounded-lg shadow-sm">
+              <div className="flex items-center mb-4">
+                <img
+                  src="https://randomuser.me/api/portraits/women/44.jpg"
+                  alt="user"
+                  className="w-10 h-10 rounded-full mr-4"
+                />
+                <div>
+                  <p className="font-medium">Adrwin John</p>
+                  <p className="text-sm text-gray-500">Verified User</p>
+                </div>
+              </div>
+              <p className="text-gray-700 text-sm">
+                I was skeptical at first, but SkinHealth+ gave me accurate insights within seconds. The dermatologist consultation was smooth and super helpful. My skin has never felt better!
+              </p>
             </div>
           ))}
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-12 text-center">
-        <h2 className="text-2xl font-semibold">Trusted by <span className="text-blue-600">50,000+</span> users across 30+ countries</h2>
-        <p className="text-gray-600 my-4">Join our global community and experience the future of dermatological care—powered by AI and trusted experts.</p>
-        <Link 
-        to="/signup" 
-        className="px-8 py-3 bg-blue-600 text-white rounded-lg text-xl font-semibold shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105"
-      >
-        Get Started
-      </Link>
       </section>
     </div>
   );

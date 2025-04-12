@@ -10,9 +10,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    const userData = { email, name: "John Doe" }; // Mock user data
-    dispatch(login(userData)); // Save user info to Redux
-    navigate("/dashboard"); // Redirect to dashboard
+    const userData = { email, name: "John Doe" }; 
+    dispatch(login(userData)); 
+    navigate("/skin-analysis"); 
   };
 
   return (

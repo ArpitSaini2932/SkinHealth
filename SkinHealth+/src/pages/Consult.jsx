@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const Consult = () => {
   const doctors = [
-    { id: 1, name: "Dr. Smith", specialty: "Dermatologist" },
-    { id: 2, name: "Dr. Johnson", specialty: "Skincare Expert" }
+    { id: 1, name: "Dr. Ankit", specialty: "Dermatologist" },
+    { id: 2, name: "Dr. Trisha", specialty: "Skincare Expert" }
   ];
 
   const dispatch = useDispatch();
@@ -16,8 +16,6 @@ const Consult = () => {
     const appointment = { doctor, time: new Date().toISOString() };
     dispatch(bookAppointment(appointment));
     alert(`Appointment booked with ${doctor.name}`);
-
-    // Navigate to consult page
     navigate("/consult");
   };
 
@@ -27,30 +25,54 @@ const Consult = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold text-center mb-4">Book a Consultation</h2>
-        <ul className="space-y-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-tr from-indigo-100 via-white to-indigo-200 px-4">
+      <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-lg">
+        <h2 className="text-3xl font-extrabold text-center text-indigo-600 mb-6">
+          Book a Skin Consultation
+        </h2>
+
+        <ul className="space-y-5">
           {doctors.map((doctor) => (
-            <li key={doctor.id} className="flex justify-between items-center bg-gray-200 p-4 rounded-lg">
+            <li
+              key={doctor.id}
+              className="flex justify-between items-center bg-indigo-50 p-4 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
+            >
               <div>
-                <p className="font-bold">{doctor.name}</p>
-                <p className="text-sm text-gray-600">{doctor.specialty}</p>
+                <p className="font-semibold text-lg text-gray-800">{doctor.name}</p>
+                <p className="text-sm text-indigo-600">{doctor.specialty}</p>
               </div>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => handleBooking(doctor)}>Book</button>
+              <button
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full font-medium shadow-md transition-all"
+                onClick={() => handleBooking(doctor)}
+              >
+                Book
+              </button>
             </li>
           ))}
         </ul>
 
         {appointments.length > 0 && (
-          <div className="mt-6 p-4 bg-green-100 text-green-700 rounded-lg">
-            <h3 className="font-bold">Your Appointments</h3>
-            {appointments.map((appt, index) => (
-              <div key={index} className="mt-2 flex justify-between">
-                <span>{appt.doctor.name} - {new Date(appt.time).toLocaleString()}</span>
-                <button className="bg-green-500 text-white px-2 py-1 rounded" onClick={() => handleJoinCall(appt)}>Join Call</button>
-              </div>
-            ))}
+          <div className="mt-8 bg-green-50 border border-green-200 rounded-2xl p-5">
+            <h3 className="text-lg font-bold text-green-700 mb-2">Your Appointments</h3>
+            <div className="space-y-3">
+              {appointments.map((appt, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center bg-white p-3 rounded-xl shadow hover:shadow-sm"
+                >
+                  <span className="text-sm text-gray-700">
+                    {appt.doctor.name} -{" "}
+                    {new Date(appt.time).toLocaleString()}
+                  </span>
+                  <button
+                    className="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1 rounded-full font-medium transition"
+                    onClick={() => handleJoinCall(appt)}
+                  >
+                    Join Call
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

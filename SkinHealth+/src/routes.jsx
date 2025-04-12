@@ -12,7 +12,8 @@ import Community from "./pages/Community";
 import SkinAnalysis from "./pages/SkinAnalysis";
 import Chat from "./pages/Chat";
 import Navbar from "./components/Navbar";
-import SkinScanPage from "./pages/SkinScanPage";
+import SkinScanPage from "./pages/SkinScanPage";``
+import Footer from "./components/footer";
 
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -26,6 +27,7 @@ const AppWrapper = () => {
   return (
     <>
       {!hideNavbar && <Navbar />}
+     
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -40,6 +42,7 @@ const AppWrapper = () => {
         <Route path="/video-call" element={<VideoCall />} />
         <Route path="/scan-page" element={<SkinScanPage />} />
       </Routes>
+      {!hideNavbar && <Footer/>}
     </>
   );
 };

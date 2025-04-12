@@ -1,33 +1,41 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import consultantBg from '../resource/consult.jpg';
+
 
 const SkinScanPage = () => {
   return (
     <div className="font-sans">
-   
-      <section className="bg-white px-6 pt-12 pb-8 text-center">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 items-center gap-8">
-            <img
-              src="/doctor-hero.jpg"
-              alt="Doctor"
-              className="w-full h-auto rounded-lg"
-            />
-            <div className="text-left">
-              <h1 className="text-4xl font-bold mb-4">Consult a Dermatologist <span className="text-blue-600">Anytime, Anywhere!</span></h1>
-              <p className="text-gray-600 text-lg mb-6">Expert skin advice, anytime, anywhere</p>
-              <button className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800">Book a Consultation</button>
-            </div>
-          </div>
 
-          <div className="mt-12 flex justify-around text-sm text-gray-600">
-            <span><strong className="text-green-600">Verified</strong> Dermatologists Only</span>
-            <span><strong className="text-blue-600">Instant</strong> Appointment Booking</span>
-            <span><strong className="text-yellow-500">Affordable</strong> Consultation Fees</span>
-            <span><strong className="text-pink-500">24/7</strong> Help & Support</span>
-          </div>
-        </div>
-      </section>
+<section
+  className="relative h-[50vh] bg-cover bg-top bg-no-repeat px-6 pt-12 pb-8 text-center"
+  style={{ backgroundImage: `url(${consultantBg})` }}
+>
+  <div className="rounded-lg p-6 max-w-6xl mx-auto">
+    
+    {/* Doctor image + content */}
+    <div className="grid md:grid-cols-2 items-center gap-8">
+      <img
+        src="/doctor-hero.jpg"
+        alt=""
+        className="w-full h-auto rounded-lg"
+      />
+      <div className="text-left">
+        <h1 className="text-4xl font-bold mb-4">
+          Consult a Dermatologist <span className="text-blue-600">Anytime, Anywhere!</span>
+        </h1>
+        <p className="text-gray-600 text-lg mb-6">Expert skin advice, anytime, anywhere</p>
+        <Link to="/skin-analysis"><button className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800">
+          Book a Consultation
+        </button></Link>
+      </div>
+    </div>
+
+   
+  </div>
+</section>
+
+
 
       <section className="bg-blue-50 py-16 text-center">
         <h2 className="text-3xl font-semibold mb-10">How It Works?</h2>
@@ -59,7 +67,7 @@ const SkinScanPage = () => {
               />
               <h4 className="font-semibold text-lg">{name}</h4>
               <p className="text-gray-500 text-sm">MD Dermatologist</p>
-              <button className="mt-3 text-blue-600 border border-blue-600 rounded px-4 py-2 hover:bg-blue-50">Book an Appointment</button>
+              <Link to="/consult"><button className="mt-3 text-blue-600 border border-blue-600 rounded px-4 py-2 hover:bg-blue-50">Book an Appointment</button></Link>
             </div>
           ))}
         </div>
@@ -83,12 +91,12 @@ const SkinScanPage = () => {
       <section className="py-12 text-center">
         <h2 className="text-2xl font-semibold">Trusted by <span className="text-blue-600">50,000+</span> users across 30+ countries</h2>
         <p className="text-gray-600 my-4">Join our global community and experience the future of dermatological care—powered by AI and trusted experts.</p>
-        <Link 
-        to="/signup" 
-        className="px-8 py-3 bg-blue-600 text-white rounded-lg text-xl font-semibold shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105"
-      >
-        Get Started
-      </Link>
+        <Link
+          to="/signup"
+          className="px-8 py-3 bg-blue-600 text-white rounded-lg text-xl font-semibold shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105"
+        >
+          Get Started
+        </Link>
       </section>
     </div>
   );

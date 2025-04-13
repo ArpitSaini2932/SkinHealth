@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Consult = () => {
   const doctors = [
-    { id: 1, name: "Dr. Ankit", specialty: "Dermatologist" },
+    { id: 1, name: "Dr. Ankita", specialty: "Dermatologist" },
     { id: 2, name: "Dr. Trisha", specialty: "Skincare Expert" }
   ];
 
